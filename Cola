@@ -1,0 +1,58 @@
+
+public class Orden {
+    private String nombre;
+    private int cantidad;
+
+    public Orden(String customerName, int quantity) {
+        this.nombre = customerName;
+        this.cantidad = quantity;
+    }
+    public String getNombre() {
+        return nombre;
+    }
+    public int getCantidad() {
+        return cantidad;
+    }
+}
+
+public class Proceso {
+    private Queue<Orden> orden;
+
+    public Proceso() {
+        orden = new LinkedList<>();
+    }
+    public void añadirOrden(Orden compra) {
+        orden.add(compra);
+        System.out.println("Orden recibida de " + compra.getNombre() + ": " + compra.getCantidad() + " productos.");
+    }
+
+    public Orden cargando() {
+        if (!orden.isEmpty()) {
+            Orden compra = orden.poll();
+            System.out.println("Procesando orden de " + compra.getNombre() + ": " + compra.getCantidad() + " productos.");
+            return compra;
+        }
+        return null;
+    }
+    public int pendientes() {
+        return orden.size();
+    }
+
+}
+public class Main {
+    public static void main(String[] args) {
+        Proceso proceso = new Proceso();
+
+        proceso.añadirOrden(new Orden("Cliente 1", 5));
+        proceso.añadirOrden(new Orden("Cliente 2", 3));
+        proceso.añadirOrden(new Orden("Cliente 3", 8));
+
+        System.out.println("Ordenes pendientes de procesar: " + proceso.pendientes());
+
+        while (proceso.pendientes() > 0) {
+            Orden cargando = proceso.cargando();
+            System.out.println("Ordenes pendientes de procesar: " + proceso.pendientes());
+        }
+    }
+}
+
